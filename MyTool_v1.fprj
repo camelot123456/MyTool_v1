@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<FaceProject DeviceType="466">
+    <Screen Title="MyTool_v1" Bitmap="preview.jpg">
+        <Widget Shape="34" Name="app_lua%2Fmain.lua" X="0" Y="0" Width="212" Height="520" Alpha="255" Visible_Src="0" />
+    </Screen>
+</FaceProject>
