@@ -77,7 +77,7 @@ local function create_games_screen()
     header:set { text = "Snake - Coming Soon" }
   end)
   items[2]:onClicked(function()
-    header:set { text = "Tic Tac Toe - Coming Soon" }
+    _G.ScreenManager.show_screen("games_tic_tac_toe")
   end)
   items[3]:onClicked(function()
     header:set { text = "Memory - Coming Soon" }
