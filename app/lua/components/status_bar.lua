@@ -1,4 +1,5 @@
 local lvgl = require("lvgl")
+local TextFont = require("components.text_font")
 
 -- Reusable Status Bar Component
 -- Displays time, date, and battery percentage. Always on top area.
@@ -37,7 +38,7 @@ function StatusBar.new(parent, opts)
   self.date_label = self.date_box:Label {
     text = "00:00",
     text_color = "#FFFFFF",
-    text_font = lvgl.BUILTIN_FONT.MONTSERRAT_20,
+    text_font = TextFont.get(20),
     align = { type = lvgl.ALIGN.CENTER }
   }
 
@@ -53,7 +54,7 @@ function StatusBar.new(parent, opts)
   self.batt_label = self.batt_box:Label {
     text = "100",
     text_color = "#FFFFFF",
-    text_font = lvgl.BUILTIN_FONT.MONTSERRAT_12,
+    text_font = TextFont.get(12),
     align = { type = lvgl.ALIGN.CENTER }
   }
 
@@ -68,7 +69,7 @@ function StatusBar.new(parent, opts)
   self.time_label = self.time_box:Label {
     text = "00:00",
     text_color = "#FFFFFF",
-    text_font = lvgl.BUILTIN_FONT.MONTSERRAT_20,
+    text_font = TextFont.get(20),
     align = { type = lvgl.ALIGN.CENTER }
   }
 

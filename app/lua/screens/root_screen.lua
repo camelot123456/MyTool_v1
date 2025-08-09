@@ -52,7 +52,6 @@ local function create_root_screen()
   local function create_btn_item(container, opts)
     local bg_color = (opts and opts.bg_color) or "#D9D9D9"
     local text = (opts and opts.text) or "None"
-    local y_ofs = (opts and opts.y_ofs) or 90
 
     -- create box button
     local new_box_btn = container:Object {
@@ -60,7 +59,7 @@ local function create_root_screen()
       h = 50,
       bg_color = bg_color,
       radius = 8,
-      align = { type = lvgl.ALIGN.TOP_MID, y_ofs = y_ofs }
+      align = { type = lvgl.ALIGN.TOP_MID }
     }
 
     -- create button
@@ -84,25 +83,21 @@ local function create_root_screen()
     radius = 10,
     border_width = 0,
     pad_all = 5,
+    layout = lvgl.LAYOUT_FLEX,
+    flex_flow = lvgl.FLEX_FLOW.COLUMN,
     align = { type = lvgl.ALIGN.TOP_MID, y_ofs = 151 }
   }
 
-  local y_ofs_offset = 0
-
   -- Calculator button
-  local calc_btn = create_btn_item(btn_container, { text = "Calculator", bg_color = "#3498DB", y_ofs = y_ofs_offset })
-  y_ofs_offset = y_ofs_offset + 60
+  local calc_btn = create_btn_item(btn_container, { text = "Calculator", bg_color = "#3498DB" })
   -- Calendar button
-  local cal_btn = create_btn_item(btn_container, { text = "Calendar", bg_color = "#E74C3C", y_ofs = y_ofs_offset })
-  y_ofs_offset = y_ofs_offset + 60
+  local cal_btn = create_btn_item(btn_container, { text = "Calendar", bg_color = "#E74C3C" })
   -- Games button
-  local games_btn = create_btn_item(btn_container, { text = "Games", bg_color = "#9B59B6", y_ofs = y_ofs_offset })
-  y_ofs_offset = y_ofs_offset + 60
+  local games_btn = create_btn_item(btn_container, { text = "Games", bg_color = "#9B59B6" })
   -- Music button
-  local music_btn = create_btn_item(btn_container, { text = "Music", bg_color = "#27AE60", y_ofs = y_ofs_offset })
-  y_ofs_offset = y_ofs_offset + 60
+  local music_btn = create_btn_item(btn_container, { text = "Music", bg_color = "#27AE60" })
   -- Settings button
-  local settings_btn = create_btn_item(btn_container, { text = "Settings", bg_color = "#F39C12", y_ofs = y_ofs_offset })
+  local settings_btn = create_btn_item(btn_container, { text = "Settings", bg_color = "#F39C12" })
 
   -- Event handlers
   calc_btn:onClicked(function()
