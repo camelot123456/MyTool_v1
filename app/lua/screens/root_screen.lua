@@ -1,6 +1,8 @@
 local lvgl = require("lvgl")
 local StatusBar = require("components.status_bar")
 local TextFont = require("components.text_font")
+local ListView = require("components.list_view.list_view")
+local ListItem = require("components.list_view.list_item")
 
 local function create_root_screen()
   local screen = lvgl.Object()
@@ -52,41 +54,21 @@ local function create_root_screen()
   local function create_btn_item(container, opts)
     local bg_color = (opts and opts.bg_color) or "#D9D9D9"
     local text = (opts and opts.text) or "None"
-
-    -- create box button
-    local new_box_btn = container:Object {
+    local item = ListItem.new(container, {
       w = 190,
       h = 50,
       bg_color = bg_color,
-      radius = 8,
-      align = { type = lvgl.ALIGN.TOP_MID }
-    }
-
-    -- create button
-    local new_btn = new_box_btn:Label {
       text = text,
-      text_color = "#FFFFFF",
-      text_font = TextFont.get(20),
-      align = { type = lvgl.ALIGN.LEFT_MID }
-    }
-    new_box_btn:add_flag(lvgl.FLAG.CLICKABLE)
-    new_box_btn:clear_flag(lvgl.FLAG.SCROLLABLE)
-
-    return new_box_btn
+      font = TextFont.get(20),
+      icon = opts and opts.icon or nil,
+      icon_size = opts and opts.icon_size or 0,
+    })
+    return item.root
   end
 
   -- Button container
-  local btn_container = screen:Object {
-    w = 200,
-    h = 282,
-    bg_color = "#202020",
-    radius = 10,
-    border_width = 0,
-    pad_all = 5,
-    layout = lvgl.LAYOUT_FLEX,
-    flex_flow = lvgl.FLEX_FLOW.COLUMN,
-    align = { type = lvgl.ALIGN.TOP_MID, y_ofs = 151 }
-  }
+  local listView = ListView.new(screen, { w = 200, h = 282, align = { type = lvgl.ALIGN.TOP_MID, y_ofs = 151 } })
+  local btn_container = listView:get_root()
 
   -- Calculator button
   local calc_btn = create_btn_item(btn_container, { text = "Calculator", bg_color = "#3498DB" })

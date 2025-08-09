@@ -2,6 +2,8 @@ local lvgl = require("lvgl")
 local StatusBar = require("components.status_bar")
 local TextFont = require("components.text_font")
 local Dialog = require("components.dialog")
+local ListView = require("components.list_view.list_view")
+local ListItem = require("components.list_view.list_item")
 
 local function fileExists(path)
   local f = io.open(path, "r")
@@ -109,48 +111,12 @@ local function create_icons_screen()
   }
 
   -- Scroll container
-  local list = screen:Object {
-    w = 200,
-    h = 369,
-    bg_color = "#202020",
-    radius = 10,
-    pad_all = 6,
-    layout = lvgl.LAYOUT_FLEX,
-    flex_flow = lvgl.FLEX_FLOW.COLUMN,
-    flex_main_place = lvgl.FLEX_ALIGN.START,
-    flex_cross_place = lvgl.FLEX_ALIGN.START,
-    align = { type = lvgl.ALIGN.TOP_MID, y_ofs = 76 }
-  }
-  list:add_flag(lvgl.FLAG.SCROLLABLE)
+  local listView = ListView.new(screen, { w = 200, h = 369, align = { type = lvgl.ALIGN.TOP_MID, y_ofs = 76 } })
+  local list = listView:get_root()
 
   local icons = collectSystemIcons()
 
   for i = 1, #icons do
-    local item = list:Object {
-      w = 186,
-      h = 60,
-      bg_color = "#303030",
-      radius = 8,
-      pad_all = 6,
-      layout = lvgl.LAYOUT_FLEX,
-      flex_flow = lvgl.FLEX_FLOW.ROW,
-      flex_main_place = lvgl.FLEX_ALIGN.START,
-      flex_cross_place = lvgl.FLEX_ALIGN.CENTER,
-    }
-    item:clear_flag(lvgl.FLAG.SCROLLABLE)
-    item:add_flag(lvgl.FLAG.CLICKABLE)
-
-    local img = item:Image { src = icons[i] }
-    local w, h = img:get_img_size()
-    if w and w > 0 then
-      local target = 48
-      if w ~= target then
-        local scale = math.floor(256 * target / w)
-        img:set { zoom = scale }
-      end
-      img:set { w = target, h = target }
-    end
-
     local function getBasename(p)
       local s = string.gsub(p, "\\", "/")
       local j = s:match("^.*()/")
@@ -158,12 +124,14 @@ local function create_icons_screen()
       return s
     end
 
-    local label = item:Label {
+    local item = ListItem.new(list, {
+      w = 186,
+      h = 60,
+      icon = icons[i],
+      icon_size = 48,
       text = getBasename(icons[i]),
-      text_color = "#FFFFFF",
-      text_font = TextFont.get(14),
-      align = { type = lvgl.ALIGN.LEFT_MID }
-    }
+      font = TextFont.get(14),
+    })
 
     local function formatSize(bytes)
       if bytes >= 1024 * 1024 then
