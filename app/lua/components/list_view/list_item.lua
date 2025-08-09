@@ -1,5 +1,5 @@
 local lvgl = require("lvgl")
-local TextFont = require("components.text_font")
+local TextFont = require("utils.text_font")
 
 local ListItem = {}
 ListItem.__index = ListItem

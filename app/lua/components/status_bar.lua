@@ -1,5 +1,5 @@
 local lvgl = require("lvgl")
-local TextFont = require("components.text_font")
+local TextFont = require("utils.text_font")
 
 -- Reusable Status Bar Component
 -- Displays time, date, and battery percentage. Always on top area.

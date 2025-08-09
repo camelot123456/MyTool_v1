@@ -1,6 +1,6 @@
 local lvgl = require("lvgl")
 local StatusBar = require("components.status_bar")
-local TextFont = require("components.text_font")
+local TextFont = require("utils.text_font")
 local ListView = require("components.list_view.list_view")
 local ListItem = require("components.list_view.list_item")
 

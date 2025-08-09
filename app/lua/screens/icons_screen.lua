@@ -1,18 +1,14 @@
 local lvgl = require("lvgl")
 local StatusBar = require("components.status_bar")
-local TextFont = require("components.text_font")
+local TextFont = require("utils.text_font")
 local Dialog = require("components.dialog")
 local ListView = require("components.list_view.list_view")
 local ListItem = require("components.list_view.list_item")
+local File = require("utils.file")
+local Path = require("utils.path")
+local Fmt = require("utils.format")
 
-local function fileExists(path)
-  local f = io.open(path, "r")
-  if f ~= nil then
-    f:close()
-    return true
-  end
-  return false
-end
+local function fileExists(path) return File.exists(path) end
 
 local function getFileSize(path)
   local rf = io.open(path, "rb")
@@ -32,12 +28,7 @@ local function hasImageExt(name)
   return false
 end
 
-local function joinPath(base, child)
-  if string.sub(base, -1) == "/" then
-    return base .. child
-  end
-  return base .. "/" .. child
-end
+local function joinPath(base, child) return Path.join(base, child) end
 
 local function scanIconsUnder(rootPath, results, maxDepth, maxCount)
   if #results >= maxCount then return end
@@ -117,19 +108,12 @@ local function create_icons_screen()
   local icons = collectSystemIcons()
 
   for i = 1, #icons do
-    local function getBasename(p)
-      local s = string.gsub(p, "\\", "/")
-      local j = s:match("^.*()/")
-      if j then return s:sub(j + 1) end
-      return s
-    end
-
     local item = ListItem.new(list, {
       w = 186,
       h = 60,
       icon = icons[i],
       icon_size = 48,
-      text = getBasename(icons[i]),
+      text = Path.basename(icons[i]),
       font = TextFont.get(14),
     })
 
@@ -144,8 +128,8 @@ local function create_icons_screen()
     end
 
     local function show_icon_dialog(iconPath)
-      local name = getBasename(iconPath)
-      local size = getFileSize(iconPath)
+      local name = Path.basename(iconPath)
+      local size = File.size(iconPath)
       local ext = name:match("(%.[^%.]+)$") or ""
 
       local dlg = Dialog.new(screen, {
@@ -171,9 +155,9 @@ local function create_icons_screen()
 
       dlg.body:Label {
         text = "Path: " .. iconPath .. "\n" ..
-            "Name: " .. name .. "\n" ..
-            "Ext:  " .. ext .. "\n" ..
-            "Size: " .. formatSize(size),
+               "Name: " .. name .. "\n" ..
+               "Ext:  " .. ext .. "\n" ..
+               "Size: " .. Fmt.size(size),
         text_color = "#FFFFFF",
         text_font = TextFont.get(14),
         max_width = 180,
