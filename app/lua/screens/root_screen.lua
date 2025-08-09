@@ -47,22 +47,6 @@ local function create_root_screen()
     long_mode = lvgl.LABEL.LONG_WRAP,
   }
 
-  -- Button container
-  local btn_container = screen:Object {
-    w = 200,
-    h = 282,
-    bg_color = "#202020",
-    radius = 10,
-    border_width = 0,
-    pad_all = 5,
-    align = { type = lvgl.ALIGN.TOP_MID, y_ofs = 151 },
-    -- layout = lvgl.LAYOUT_FLEX,
-    -- flex_flow = lvgl.FLEX_FLOW.COLUMN,
-    -- flex_main_place = lvgl.FLEX_ALIGN.SPACE_BETWEEN,
-    -- flex_grow = 0,
-    -- flex_cross_place = lvgl.FLEX_ALIGN.CENTER
-  }
-
   local function create_btn_item(container, opts)
     local bg_color = (opts and opts.bg_color) or "#D9D9D9"
     local text = (opts and opts.text) or "None"
@@ -90,6 +74,17 @@ local function create_root_screen()
 
     return new_box_btn
   end
+
+  -- Button container
+  local btn_container = screen:Object {
+    w = 200,
+    h = 282,
+    bg_color = "#202020",
+    radius = 10,
+    border_width = 0,
+    pad_all = 5,
+    align = { type = lvgl.ALIGN.TOP_MID, y_ofs = 151 }
+  }
 
   local y_ofs_offset = 0
 
@@ -128,6 +123,8 @@ local function create_root_screen()
   music_btn:onClicked(function()
     _G.ScreenManager.show_screen("music")
   end)
+
+  return screen
 end
 
 return {
