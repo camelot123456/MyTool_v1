@@ -1,5 +1,6 @@
 local lvgl = require("lvgl")
 local StatusBar = require("components.status_bar")
+local TextFont = require("components.text_font")
 
 local function create_root_screen()
   local screen = lvgl.Object()
@@ -21,6 +22,7 @@ local function create_root_screen()
     bg_color = "#000000",
     radius = 10,
     border_width = 0,
+    text_align = lvgl.ALIGN.CENTER,
     align = { type = lvgl.ALIGN.TOP_MID, y_ofs = 57 }
   }
 
@@ -42,7 +44,7 @@ local function create_root_screen()
     text = phrase,
     text_color = "#ffffff",
     text_align = lvgl.ALIGN.CENTER,
-    text_font = lvgl.BUILTIN_FONT.MONTSERRAT_28,
+    text_font = TextFont.get(24),
     align = { type = lvgl.ALIGN.CENTER },
     long_mode = lvgl.LABEL.LONG_WRAP,
   }
@@ -54,7 +56,6 @@ local function create_root_screen()
 
     -- create box button
     local new_box_btn = container:Object {
-      text = text,
       w = 190,
       h = 50,
       bg_color = bg_color,
@@ -66,7 +67,7 @@ local function create_root_screen()
     local new_btn = new_box_btn:Label {
       text = text,
       text_color = "#FFFFFF",
-      text_font = lvgl.BUILTIN_FONT.MONTSERRAT_20,
+      text_font = TextFont.get(20),
       align = { type = lvgl.ALIGN.LEFT_MID }
     }
     new_box_btn:add_flag(lvgl.FLAG.CLICKABLE)
