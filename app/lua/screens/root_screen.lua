@@ -98,6 +98,8 @@ local function create_root_screen()
   local music_btn = create_btn_item(btn_container, { text = "Music", bg_color = "#27AE60" })
   -- Settings button
   local settings_btn = create_btn_item(btn_container, { text = "Settings", bg_color = "#F39C12" })
+  -- Icons button
+  local icons_btn = create_btn_item(btn_container, { text = "Icons", bg_color = "#34495E" })
 
   -- Event handlers
   calc_btn:onClicked(function()
@@ -118,6 +120,10 @@ local function create_root_screen()
 
   music_btn:onClicked(function()
     _G.ScreenManager.show_screen("music")
+  end)
+
+  icons_btn:onClicked(function()
+    _G.ScreenManager.show_screen("icons")
   end)
 
   return screen

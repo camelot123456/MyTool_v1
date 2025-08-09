@@ -19,6 +19,8 @@ function ScreenManager.show_screen(screen_name)
       screens[screen_name] = require("screens.root_screen").create()
     elseif screen_name == "calculator" then
       screens[screen_name] = require("screens.calculator_screen").create()
+    elseif screen_name == "icons" then
+      screens[screen_name] = require("screens.icons_screen").create()
     elseif screen_name == "calendar" then
       screens[screen_name] = require("screens.calendar_screen").create()
     elseif screen_name == "games" then
