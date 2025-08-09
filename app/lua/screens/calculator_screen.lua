@@ -1,4 +1,5 @@
 local lvgl = require("lvgl")
+local StatusBar = require("components.status_bar")
 
 local function create_calculator_screen()
   local screen = lvgl.Object()
@@ -8,24 +9,27 @@ local function create_calculator_screen()
     bg_color = "#1a1a1a"
   }
 
+  -- Status bar
+  local sb = StatusBar.new(screen, { width = 188, align_y = 0 })
+
   -- Header
   local header = screen:Label {
     text = "Calculator",
     text_color = "#FFFFFF",
     text_font = lvgl.BUILTIN_FONT.MONTSERRAT_18,
-    align = { type = lvgl.ALIGN.TOP_MID, y_ofs = 20 }
+    align = { type = lvgl.ALIGN.TOP_MID, y_ofs = 10 }
   }
 
   -- Back button
   local back_btn = screen:Label {
-    text = "← Back",
+    text = "Back",
     w = 60,
-    h = 30,
+    h = 28,
     bg_color = "#E74C3C",
     text_color = "#FFFFFF",
     text_font = lvgl.BUILTIN_FONT.MONTSERRAT_12,
     radius = 5,
-    align = { type = lvgl.ALIGN.TOP_LEFT, x_ofs = 10, y_ofs = 15 },
+    align = { type = lvgl.ALIGN.TOP_LEFT, x_ofs = 8, y_ofs = 8 },
     pad_all = 5
   }
   back_btn:add_flag(lvgl.FLAG.CLICKABLE)
@@ -42,15 +46,15 @@ local function create_calculator_screen()
     text_color = "#FFFFFF",
     text_font = lvgl.BUILTIN_FONT.MONTSERRAT_24,
     radius = 8,
-    align = { type = lvgl.ALIGN.TOP_MID, y_ofs = 70 },
+    align = { type = lvgl.ALIGN.TOP_MID, y_ofs = 55 },
     pad_all = 15
   }
 
-  -- Calculator buttons container
+  -- Buttons container
   local btn_container = screen:Object {
     w = 180,
     h = 350,
-    align = { type = lvgl.ALIGN.TOP_MID, y_ofs = 150 }
+    align = { type = lvgl.ALIGN.TOP_MID, y_ofs = 135 }
   }
 
   local buttons = {
@@ -67,17 +71,17 @@ local function create_calculator_screen()
   for i, row in ipairs(buttons) do
     for j, text in ipairs(row) do
       if text ~= "" then
-                 local btn = btn_container:Label {
-           text = text,
-           w = 40,
-           h = 40,
-           bg_color = "#3498DB",
-           text_color = "#FFFFFF",
-           text_font = lvgl.BUILTIN_FONT.MONTSERRAT_14,
-           radius = 5,
-           align = { type = lvgl.ALIGN.TOP_LEFT, x_ofs = (j - 1) * 45, y_ofs = (i - 1) * 50 },
-           pad_all = 8
-         }
+        local btn = btn_container:Label {
+          text = text,
+          w = 40,
+          h = 40,
+          bg_color = "#3498DB",
+          text_color = "#FFFFFF",
+          text_font = lvgl.BUILTIN_FONT.MONTSERRAT_14,
+          radius = 5,
+          align = { type = lvgl.ALIGN.TOP_LEFT, x_ofs = (j - 1) * 45, y_ofs = (i - 1) * 50 },
+          pad_all = 8
+        }
         btn:add_flag(lvgl.FLAG.CLICKABLE)
 
         btn:onClicked(function()
@@ -85,7 +89,6 @@ local function create_calculator_screen()
             display_text = "0"
             current_expression = ""
           elseif text == "=" then
-            -- Simple calculation
             local success, result = pcall(function()
               return load("return " .. current_expression)()
             end)
